@@ -1,0 +1,6 @@
+[Service]
+Environment="KUBELET_KUBECONFIG_ARGS=--kubeconfig=/var/lib/kubelet/kubeconfig --root-dir=/var/lib/kubelet --cert-dir=/var/lib/kubelet/pki --hostname-override=mastering-k8s-sandbox --pod-infra-container-image=registry.k8s.io/pause:3.10 --node-ip=10.0.0.70 --cloud-provider=external --cgroup-driver=cgroupfs --max-pods=110 --v=1"
+Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
+EnvironmentFile=-/etc/default/kubelet
+ExecStart=
+ExecStart=/usr/local/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS
