@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+  labels:
+    component: kube-apiserver
+    tier: control-plane
+spec:
+  hostNetwork: true
+  priorityClassName: system-node-critical
+  containers:
+  - name: kube-apiserver
+    image: registry.k8s.io/kube-apiserver:v1.34.1
+    imagePullPolicy: IfNotPresent
+    command:
+    - kube-apiserver
+    args:
+    - --etcd-servers=http://$(HOST_IP):2379
+    - --service-cluster-ip-range=10.0.0.0/24
+    - --bind-address=0.0.0.0
+    - --secure-port=6443
+    - --advertise-address=$(HOST_IP)
+    - --authorization-mode=AlwaysAllow
+    - --client-ca-file=/etc/kubernetes/pki/ca-proper.crt
+    - --enable-priority-and-fairness=false
+    - --allow-privileged=true
+    - --profiling=false
+    - --storage-backend=etcd3
+    - --storage-media-type=application/json
+    - --v=0
+    - --service-account-issuer=https://kubernetes.default.svc.cluster.local
+    - --service-account-key-file=/etc/kubernetes/pki/sa.pub
+    - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
+    - --enable-bootstrap-token-auth=true
+    - --token-auth-file=/etc/kubernetes/pki/token-auth-file
+    env:
+    - name: HOST_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    ports:
+    - name: https
+      containerPort: 6443
+      protocol: TCP
+    volumeMounts:
+    - name: k8s-certs
+      mountPath: /etc/kubernetes/pki
+      readOnly: true
+    - name: ca-certs
+      mountPath: /etc/ssl/certs
+      readOnly: true
+    - name: etc-ca-certificates
+      mountPath: /etc/ca-certificates
+      readOnly: true
+    - name: usr-local-share-ca-certificates
+      mountPath: /usr/local/share/ca-certificates
+      readOnly: true
+    - name: usr-share-ca-certificates
+      mountPath: /usr/share/ca-certificates
+      readOnly: true
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    securityContext:
+      privileged: true
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
+  volumes:
+  - name: k8s-certs
+    hostPath:
+      path: /etc/kubernetes/pki
+      type: DirectoryOrCreate
+  - name: ca-certs
+    hostPath:
+      path: /etc/ssl/certs
+      type: DirectoryOrCreate
+  - name: etc-ca-certificates
+    hostPath:
+      path: /etc/ca-certificates
+      type: DirectoryOrCreate
+  - name: usr-local-share-ca-certificates
+    hostPath:
+      path: /usr/local/share/ca-certificates
+      type: DirectoryOrCreate
+  - name: usr-share-ca-certificates
+    hostPath:
+      path: /usr/share/ca-certificates
+      type: DirectoryOrCreate
