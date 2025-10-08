@@ -1,0 +1,7 @@
+apiVersion: apps.newresource.com/v1alpha1
+kind: NewResource
+metadata:
+  name: sample-newresource
+  namespace: default
+spec:
+  foo: "Hello from NewResource!"
