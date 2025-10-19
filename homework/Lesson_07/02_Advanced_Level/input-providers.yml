@@ -1,0 +1,23 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: kbot-chart
+  namespace: demo-gitless
+spec:
+  type: OCIArtifactTag
+  url: oci://ghcr.io/vkamlov/charts/kbot
+  filter:
+    semver: '>=2.0.0'
+    limit: 1
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: kbot-image
+  namespace: demo-gitless
+spec:
+  type: OCIArtifactTag
+  url: oci://ghcr.io/vkamlov/kbot-src
+  filter:
+    semver: '>=2.0.0'
+    limit: 1
