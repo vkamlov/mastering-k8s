@@ -8,7 +8,7 @@ spec:
   interval: 1m0s
   url: https://github.com/vkamlov/flux-gitops-dev
   ref:
-    branch: main
+    branch: imageautomation
   secretRef:
     name: github-auth
 ---
