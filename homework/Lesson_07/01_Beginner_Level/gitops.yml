@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/vkamlov/flux-gitops-dev
+  ref:
+    branch: main
+  secretRef:
+    name: github-auth
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux-system
+  namespace: flux-system
+  labels:
+    kustomize.toolkit.fluxcd.io/name: flux-system
+    kustomize.toolkit.fluxcd.io/namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./clusters/demo
+  prune: true
+  force: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
