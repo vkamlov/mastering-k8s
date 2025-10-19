@@ -16,7 +16,7 @@ vcn: ocid1.vcn.oc1.eu-frankfurt-1.amaaaaaay4dbhtaaezrwfn37fy4zej6hocl5j62ag42fkj
 loadBalancer:
   # subnet1 configures one of two subnets to which load balancers will be added.
   # For regional subnets (AD = null), only subnet1 is needed
-  subnet1: ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa6jsjzx66oqct2txyy6o2jfpxzs6sn6fujapqscfauv2tamglvc5q
+  subnet1: ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa7d3ov4zup4gezh3yqjh6olyb43svy3calwp6watyal6dhmw7w63q
   # subnet2: Only needed for AD-specific subnets, not for regional subnets
   # subnet2: ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaanso7ojfferfieewt7vpdvzird5lpc2saun7t6ppuor4hl5pecgea
   # SecurityListManagementMode configures how security lists are managed by the CCM.
@@ -35,11 +35,11 @@ loadBalancer:
   #                    ranges, and health check port ranges. E.g. 10.82.0.0/16 30000-32000.
   #                    Additionally requires the user to mange rules to allow
   #                    inbound traffic to load balancers.
-  securityListManagementMode: All
+  securityListManagementMode: None
 
-  # Optional specification of which security lists to modify per subnet. This does not apply if security list management is off.
-  securityLists:
-    ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa6jsjzx66oqct2txyy6o2jfpxzs6sn6fujapqscfauv2tamglvc5q: ocid1.securitylist.oc1.eu-frankfurt-1.aaaaaaaa4cgehvbiqgr5paiqhcshwnosrpj5iwuu7q6rz6xdkdjlkwf6en4a
+  # # Optional specification of which security lists to modify per subnet. This does not apply if security list management is off.
+  # securityLists:
+  #   ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa6jsjzx66oqct2txyy6o2jfpxzs6sn6fujapqscfauv2tamglvc5q: ocid1.securitylist.oc1.eu-frankfurt-1.aaaaaaaaw74gims7ydgebyqtvxp4vyqakkq5gdzxo2dgyinlfhbyqjf65d2a
 # Optional rate limit controls for accessing OCI API
 rateLimiter:
   rateLimitQPSRead: 20.0
